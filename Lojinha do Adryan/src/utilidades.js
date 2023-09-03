@@ -64,3 +64,46 @@ export const catalogo = [
       feminino: true,
     },
   ];
+
+export function salvarLocalStorage(chave, informacao) {
+  localStorage.setItem(chave, JSON.stringify(informacao))
+}
+
+export function lerLocalStorage(chave) {
+  return JSON.parse(localStorage.getItem(chave));
+}
+
+export function apagarDoLocalStorage(chave) {
+  localStorage.removeItem(chave);
+}
+
+export function desenharProdutoNoCarrinhoSimples(idProduto, idContainerHTML, quantidadeProduto) {
+  const produto = catalogo.find((p) => p.id === idProduto)
+  const containerProdutosCarrinho = document.getElementById(idContainerHTML)
+
+  const elementoArticle = document.createElement('article');
+  elementoArticle.classList.add('flex')
+  elementoArticle.classList.add('bg-stone-200')
+  elementoArticle.classList.add('border')
+  elementoArticle.classList.add('rounded-lg')
+  elementoArticle.classList.add('p-1')
+  elementoArticle.classList.add('relative')
+  elementoArticle.classList.add('mb-2')
+  elementoArticle.classList.add('w-96')
+
+  const cartaoProdutoCarrinho = `      
+      <img src="./assets/img/${produto.imagem}" alt="Produto ${produto.id}" class="h-24 rounded-lg">
+
+      <div class="p-2 flex flex-col justify-between">
+          <p class="text-slate-900 text-sm" >${produto.nome}</p>
+          <p class="text-slate-400 text-xs">Tamanho: M</p>
+          <p class="text-green-700 text-lg">$${produto.preco}</p>
+      </div>
+      <div class='flex text-slate-950 items-end absolute bottom-0 right-2 gap-2 text-lg'>
+          <p id='quantidade-${produto.id}' >${quantidadeProduto}</p>
+      </div>
+  `
+
+  elementoArticle.innerHTML = cartaoProdutoCarrinho
+  containerProdutosCarrinho.appendChild(elementoArticle)
+}
